@@ -9,6 +9,7 @@
 import UIKit
 import Vision
 import AVFoundation
+import CollectionKit
 
 class ViewController: UIViewController {
     
@@ -29,10 +30,26 @@ class ViewController: UIViewController {
         return view
     }()
     
-    lazy var flyLayer: CALayer = {
-        let layer = CALayer()
-        layer.backgroundColor = UIColor.red.cgColor
-        return layer
+//    lazy var flyLayer: FlyLayer = {
+//        let layer = FlyLayer()
+//        layer.backgroundColor = UIColor.red.cgColor
+//        return layer
+//    }()
+    
+    private lazy var flyView: FlyView = {
+        
+        let dataSource = ArrayDataSource(data: [1, 2, 3, 4], identifierMapper: { (_int, _what) -> String in
+            return "\(0)"
+        })
+        let viewSource = ClosureViewSource(viewUpdater: { (UILabel, _, _int) in
+            <#code#>
+        })
+//        let sizeSource = SizeSource()
+        
+        let provider = BasicProvider(dataSource: dataSource,
+                                     viewSource: viewSource,
+                                     sizeSource: sizeSource)
+        return FlyView(provider: provider)
     }()
 
     override func viewDidLoad() {
@@ -54,7 +71,9 @@ class ViewController: UIViewController {
         view.addSubview(imageView)
 
         view.addSubview(textBackground)
-        textBackground.layer.addSublayer(flyLayer)
+//        textBackground.layer.addSublayer(flyLayer)
+        
+        textBackground.addSubview(flyView)
 
         CADisplayLink.init(target: self, selector: #selector(displayLinkCallback)).add(to: RunLoop.main, forMode: .default)
     }
@@ -66,18 +85,23 @@ class ViewController: UIViewController {
         
         imageView.frame = view.bounds
         textBackground.frame = view.bounds
-        flyLayer.frame = textBackground.bounds
+//        flyLayer.frame = textBackground.bounds
+        flyView.frame = textBackground.bounds
     }
     
     @objc private func displayLinkCallback() {
         
         guard let _playerItem = playerItem,
-            let plxelBuffer = playerItemOutput.copyPixelBuffer(forItemTime: _playerItem.currentTime(), itemTimeForDisplay: nil),
-            let cgImage = CIImage(cvImageBuffer: plxelBuffer).cgImage else {
+            let plxelBuffer = playerItemOutput.copyPixelBuffer(forItemTime: _playerItem.currentTime(), itemTimeForDisplay: nil) else {
             return
         }
         
-        updateMask(image: cgImage)
+        let ciImage = CIImage(cvImageBuffer: plxelBuffer)
+        if let cgImage = CIContext().createCGImage(ciImage, from: ciImage.extent) {
+            
+            updateMask(image: cgImage)
+//            flyLayer.update()
+        }
     }
     
     private func updateMask(image: CGImage) {
