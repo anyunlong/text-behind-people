@@ -13,43 +13,21 @@ import CollectionKit
 
 class ViewController: UIViewController {
     
+    private var displayLinkCallCount: Int = 0
+    
     private var playerLayer = AVPlayerLayer()
     
     private var playerItem: AVPlayerItem?
     
     private var playerItemOutput = AVPlayerItemVideoOutput()
     
-//    lazy var image: UIImage? = {
-//        return UIImage(named: "vn2")
-//    }()
-    
-    lazy var imageView: UIImageView = UIImageView()
-    
     lazy var textBackground: TextBackground = {
         let view = TextBackground()
         return view
     }()
     
-//    lazy var flyLayer: FlyLayer = {
-//        let layer = FlyLayer()
-//        layer.backgroundColor = UIColor.red.cgColor
-//        return layer
-//    }()
-    
     private lazy var flyView: FlyView = {
-        
-        let dataSource = ArrayDataSource(data: [1, 2, 3, 4], identifierMapper: { (_int, _what) -> String in
-            return "\(0)"
-        })
-        let viewSource = ClosureViewSource(viewUpdater: { (UILabel, _, _int) in
-            <#code#>
-        })
-//        let sizeSource = SizeSource()
-        
-        let provider = BasicProvider(dataSource: dataSource,
-                                     viewSource: viewSource,
-                                     sizeSource: sizeSource)
-        return FlyView(provider: provider)
+        return FlyView()
     }()
 
     override func viewDidLoad() {
@@ -64,15 +42,11 @@ class ViewController: UIViewController {
         playerItem!.add(playerItemOutput)
         let player = AVPlayer(playerItem: playerItem)
         playerLayer = AVPlayerLayer(player: player)
+        playerLayer.videoGravity = .resize
         view.layer.addSublayer(playerLayer)
         player.play()
-        
-//        imageView.image = image
-        view.addSubview(imageView)
 
         view.addSubview(textBackground)
-//        textBackground.layer.addSublayer(flyLayer)
-        
         textBackground.addSubview(flyView)
 
         CADisplayLink.init(target: self, selector: #selector(displayLinkCallback)).add(to: RunLoop.main, forMode: .default)
@@ -82,25 +56,38 @@ class ViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         playerLayer.frame = view.bounds
-        
-        imageView.frame = view.bounds
-        textBackground.frame = view.bounds
-//        flyLayer.frame = textBackground.bounds
+        textBackground.frame = playerLayer.frame
         flyView.frame = textBackground.bounds
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        flyView.startFly()
     }
     
     @objc private func displayLinkCallback() {
         
-        guard let _playerItem = playerItem,
-            let plxelBuffer = playerItemOutput.copyPixelBuffer(forItemTime: _playerItem.currentTime(), itemTimeForDisplay: nil) else {
+//        displayLinkCallCount = displayLinkCallCount + 1
+        
+        guard let _playerItem = playerItem else {
+                return
+        }
+        
+        if let range = _playerItem.seekableTimeRanges.first as? CMTimeRange {
+            let compare = CMTimeCompare(_playerItem.currentTime(), range.duration)
+            if compare == 0 {
+                return
+            }
+        }
+        
+        guard let plxelBuffer = playerItemOutput.copyPixelBuffer(forItemTime: _playerItem.currentTime(), itemTimeForDisplay: nil) else {
             return
         }
         
         let ciImage = CIImage(cvImageBuffer: plxelBuffer)
         if let cgImage = CIContext().createCGImage(ciImage, from: ciImage.extent) {
-            
             updateMask(image: cgImage)
-//            flyLayer.update()
         }
     }
     
