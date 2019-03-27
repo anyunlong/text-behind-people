@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     
     lazy var textBackground: TextBackground = {
         let view = TextBackground()
+        view.backgroundColor = UIColor.green.withAlphaComponent(0.5)
         return view
     }()
     

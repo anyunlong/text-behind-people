@@ -16,7 +16,7 @@
 		44F5C091224728D900DB2985 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44F5C090224728D900DB2985 /* Assets.xcassets */; };
 		44F5C094224728D900DB2985 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44F5C092224728D900DB2985 /* LaunchScreen.storyboard */; };
 		44F5C09D2247609800DB2985 /* TextBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F5C09C2247609800DB2985 /* TextBackground.swift */; };
-		44F5C09F2247A8C600DB2985 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 44F5C09E2247A54800DB2985 /* video.mp4 */; };
+		44F78519224BA3E900CB77EF /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 44F78518224BA3E900CB77EF /* video.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +34,7 @@
 		44F5C093224728D900DB2985 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44F5C095224728D900DB2985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44F5C09C2247609800DB2985 /* TextBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBackground.swift; sourceTree = "<group>"; };
-		44F5C09E2247A54800DB2985 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
+		44F78518224BA3E900CB77EF /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		9150339BB23A0C427BA87621 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,7 +90,7 @@
 		44F5C088224728D900DB2985 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				44F5C09E2247A54800DB2985 /* video.mp4 */,
+				44F78518224BA3E900CB77EF /* video.mp4 */,
 				44F5C089224728D900DB2985 /* AppDelegate.swift */,
 				44F5C08B224728D900DB2985 /* ViewController.swift */,
 				44F5C08D224728D900DB2985 /* Main.storyboard */,
@@ -164,10 +164,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44F5C09F2247A8C600DB2985 /* video.mp4 in Resources */,
 				44F5C094224728D900DB2985 /* LaunchScreen.storyboard in Resources */,
 				44F5C091224728D900DB2985 /* Assets.xcassets in Resources */,
 				44F5C08F224728D900DB2985 /* Main.storyboard in Resources */,
+				44F78519224BA3E900CB77EF /* video.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
